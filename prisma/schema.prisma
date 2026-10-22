@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PayerPolicy {
+  id             Int                     @id @default(autoincrement())
+  payer_name     String                  @db.VarChar(100)
+  procedure_code String                  @db.VarChar(50)
+  policy_number  String                  @db.VarChar(50)
+  policy_title   String
+  section_name   String                  @db.VarChar(150)
+  chunk_text     String
+  embedding      Unsupported("vector(1024)")
+
+  @@index([payer_name, procedure_code], map: "idx_payer_policies_hybrid")
+  @@map("payer_policies")
+}
+
+model PatientRequest {
+  id                  Int            @id @default(autoincrement())
+  patient_id_code     String         @unique @db.VarChar(50)
+  patient_name        String         @db.VarChar(100)
+  dob                 DateTime       @db.Date
+  payer_name          String         @db.VarChar(100)
+  member_id           String         @db.VarChar(50)
+  requested_procedure String         @db.VarChar(200)
+  procedure_code      String         @db.VarChar(50)
+  diagnosis_codes     String[]
+  clinical_notes      Json           @db.JsonB
+  status              String         @default("PENDING_PREP") @db.VarChar(50)
+  created_at          DateTime       @default(now()) @db.Timestamptz()
+  prepped_packet      PreppedPacket?
+
+  @@index([status], map: "idx_patient_requests_status")
+  @@index([payer_name, procedure_code], map: "idx_patient_requests_payer")
+  @@map("patient_requests")
+}
+
+model PreppedPacket {
+  id                         Int            @id @default(autoincrement())
+  request_id                 Int            @unique
+  readiness_status           String         @db.VarChar(50)
+  confidence_score           Int
+  criteria_checklist         Json           @db.JsonB
+  missing_items              String[]
+  draft_justification_letter String
+  updated_at                 DateTime       @default(now()) @db.Timestamptz()
+  patient_request            PatientRequest @relation(fields: [request_id], references: [id], onDelete: Cascade)
+
+  @@index([request_id], map: "idx_prepped_packets_request_id")
+  @@map("prepped_packets")
+}
