@@ -69,3 +69,19 @@ CREATE TABLE IF NOT EXISTS prepped_packets (
 -- Index for foreign key lookups
 CREATE INDEX IF NOT EXISTS idx_prepped_packets_request_id 
     ON prepped_packets (request_id);
+
+-- 6. Application Users Table (Clinicians, CMOs, & Prior-Auth Specialists)
+CREATE TABLE IF NOT EXISTS app_users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(120) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT 'CLINICIAN' NOT NULL,
+    organization VARCHAR(150) DEFAULT 'St. Jude Clinical Network' NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Index for authentication email lookup
+CREATE INDEX IF NOT EXISTS idx_app_users_email 
+    ON app_users (email);
+

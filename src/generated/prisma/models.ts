@@ -11,4 +11,5 @@
 export type * from './models/PayerPolicy'
 export type * from './models/PatientRequest'
 export type * from './models/PreppedPacket'
+export type * from './models/AppUser'
 export type * from './commonInputTypes'

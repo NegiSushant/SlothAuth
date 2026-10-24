@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     "Autonomous overnight prior-authorization preparation agent powered by local Gemma and PostgreSQL pgvector. 100% on-premise HIPAA compliant.",
 };
 
+import { AuthProvider } from "@/lib/context/AuthContext";
+
 export default function RootLayout({
   children,
 }: {
@@ -29,7 +31,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} dark bg-slate-950 text-slate-100 antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

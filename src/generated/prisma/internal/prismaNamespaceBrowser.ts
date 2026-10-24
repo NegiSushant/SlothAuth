@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   PayerPolicy: 'PayerPolicy',
   PatientRequest: 'PatientRequest',
-  PreppedPacket: 'PreppedPacket'
+  PreppedPacket: 'PreppedPacket',
+  AppUser: 'AppUser'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -115,6 +116,19 @@ export const PreppedPacketScalarFieldEnum = {
 } as const
 
 export type PreppedPacketScalarFieldEnum = (typeof PreppedPacketScalarFieldEnum)[keyof typeof PreppedPacketScalarFieldEnum]
+
+
+export const AppUserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password_hash: 'password_hash',
+  role: 'role',
+  organization: 'organization',
+  created_at: 'created_at'
+} as const
+
+export type AppUserScalarFieldEnum = (typeof AppUserScalarFieldEnum)[keyof typeof AppUserScalarFieldEnum]
 
 
 export const SortOrder = {

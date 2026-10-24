@@ -399,7 +399,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   PayerPolicy: 'PayerPolicy',
   PatientRequest: 'PatientRequest',
-  PreppedPacket: 'PreppedPacket'
+  PreppedPacket: 'PreppedPacket',
+  AppUser: 'AppUser'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "payerPolicy" | "patientRequest" | "preppedPacket"
+    modelProps: "payerPolicy" | "patientRequest" | "preppedPacket" | "appUser"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -625,6 +626,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AppUser: {
+      payload: Prisma.$AppUserPayload<ExtArgs>
+      fields: Prisma.AppUserFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AppUserFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AppUserFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>
+        }
+        findFirst: {
+          args: Prisma.AppUserFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AppUserFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>
+        }
+        findMany: {
+          args: Prisma.AppUserFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>[]
+        }
+        create: {
+          args: Prisma.AppUserCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>
+        }
+        createMany: {
+          args: Prisma.AppUserCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AppUserCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>[]
+        }
+        delete: {
+          args: Prisma.AppUserDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>
+        }
+        update: {
+          args: Prisma.AppUserUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>
+        }
+        deleteMany: {
+          args: Prisma.AppUserDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AppUserUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AppUserUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>[]
+        }
+        upsert: {
+          args: Prisma.AppUserUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppUserPayload>
+        }
+        aggregate: {
+          args: Prisma.AppUserAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAppUser>
+        }
+        groupBy: {
+          args: Prisma.AppUserGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppUserGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AppUserCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppUserCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -707,6 +782,19 @@ export const PreppedPacketScalarFieldEnum = {
 } as const
 
 export type PreppedPacketScalarFieldEnum = (typeof PreppedPacketScalarFieldEnum)[keyof typeof PreppedPacketScalarFieldEnum]
+
+
+export const AppUserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password_hash: 'password_hash',
+  role: 'role',
+  organization: 'organization',
+  created_at: 'created_at'
+} as const
+
+export type AppUserScalarFieldEnum = (typeof AppUserScalarFieldEnum)[keyof typeof AppUserScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -970,6 +1058,7 @@ export type GlobalOmitConfig = {
   payerPolicy?: Prisma.PayerPolicyOmit
   patientRequest?: Prisma.PatientRequestOmit
   preppedPacket?: Prisma.PreppedPacketOmit
+  appUser?: Prisma.AppUserOmit
 }
 
 /* Types for Logging */

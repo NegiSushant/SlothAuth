@@ -32,3 +32,8 @@ export type PatientRequest = Prisma.PatientRequestModel
  * 
  */
 export type PreppedPacket = Prisma.PreppedPacketModel
+/**
+ * Model AppUser
+ * 
+ */
+export type AppUser = Prisma.AppUserModel

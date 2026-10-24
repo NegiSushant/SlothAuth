@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import type { QueueStats } from "@/types/prior-auth";
+import { UserMenu } from "./auth/UserMenu";
 
 interface TopControlBarProps {
   stats: QueueStats | null;
@@ -79,6 +80,15 @@ export function TopControlBar({
 
         {/* Global Action Buttons */}
         <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Back to Project Overview */}
+          <a
+            href="/"
+            title="View Project Flow & Hackathon Overview"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-300 bg-slate-900 hover:bg-slate-800 hover:text-white border border-slate-800 hover:border-slate-700 rounded-lg transition-all shadow-sm active:scale-95"
+          >
+            <span>Overview & Flow</span>
+          </a>
+
           {/* Reset simulation button */}
           <button
             onClick={onResetDemo}
@@ -109,7 +119,7 @@ export function TopControlBar({
           <button
             onClick={onRunOvernightPrep}
             disabled={isRunning}
-            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-950 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 rounded-lg transition-all shadow-md shadow-emerald-500/20 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-950 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 rounded-lg transition-all shadow-md shadow-emerald-500/20 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
           >
             {isRunning ? (
               <>
@@ -123,6 +133,11 @@ export function TopControlBar({
               </>
             )}
           </button>
+
+          {/* User profile & sign out menu */}
+          <div className="pl-1 border-l border-slate-800">
+            <UserMenu />
+          </div>
         </div>
       </div>
 

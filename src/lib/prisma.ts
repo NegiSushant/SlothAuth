@@ -12,8 +12,14 @@ const adapter = new PrismaPg({
     "postgresql://postgres:mysecretpassword@localhost:5432/postgres",
 });
 
+// Ensure hot-reloaded dev server doesn't keep a stale client without appUser
+const hasAppUser = Boolean(
+  globalForPrisma.prismaClient && (globalForPrisma.prismaClient as any).appUser
+);
+
 export const prisma =
-  globalForPrisma.prismaClient ?? new PrismaClient({ adapter });
+  (hasAppUser ? globalForPrisma.prismaClient : undefined) ??
+  new PrismaClient({ adapter });
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prismaClient = prisma;

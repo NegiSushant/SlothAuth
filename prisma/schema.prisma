@@ -55,3 +55,16 @@ model PreppedPacket {
   @@index([request_id], map: "idx_prepped_packets_request_id")
   @@map("prepped_packets")
 }
+
+model AppUser {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(120)
+  email         String   @unique @db.VarChar(150)
+  password_hash String   @db.VarChar(255)
+  role          String   @default("CLINICIAN") @db.VarChar(50)
+  organization  String   @default("St. Jude Clinical Network") @db.VarChar(150)
+  created_at    DateTime @default(now()) @db.Timestamptz()
+
+  @@map("app_users")
+}
+
