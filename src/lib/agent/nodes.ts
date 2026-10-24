@@ -53,10 +53,7 @@ function extractJsonFromLLMResponse(rawText: string): unknown {
   return JSON.parse(jsonSubstring);
 }
 
-// ============================================================================
 // Node 1: extractPatientContext (Patient Context Extractor)
-// ============================================================================
-
 export async function extractPatientContext(state: PriorAuthStateType) {
   const requestId = state.requestId;
   if (!requestId) {
@@ -98,9 +95,9 @@ export async function extractPatientContext(state: PriorAuthStateType) {
     notes.medications_tried.forEach((med: any, idx: number) => {
       sections.push(
         `${idx + 1}. **${med.medication}** (${med.dosage || "Dose N/A"}): ` +
-          `Dates: ${med.start_date || "N/A"} to ${med.end_date || "Present"} (${med.duration_weeks || 0} weeks). ` +
-          `Outcome: ${med.outcome || "N/A"}` +
-          (med.adverse_reaction ? ` | **Adverse Reaction**: ${med.adverse_reaction}` : "")
+        `Dates: ${med.start_date || "N/A"} to ${med.end_date || "Present"} (${med.duration_weeks || 0} weeks). ` +
+        `Outcome: ${med.outcome || "N/A"}` +
+        (med.adverse_reaction ? ` | **Adverse Reaction**: ${med.adverse_reaction}` : "")
       );
     });
   } else {
@@ -112,10 +109,10 @@ export async function extractPatientContext(state: PriorAuthStateType) {
   if (pt) {
     sections.push(
       `- **Status**: ${pt.completed ? "Completed" : "Incomplete / Not Done"}\n` +
-        `- **Facility**: ${pt.facility || "N/A"}\n` +
-        `- **Dates & Duration**: ${pt.start_date || "N/A"} to ${pt.end_date || "N/A"} (${pt.total_sessions || 0} sessions, ${pt.frequency || "N/A"})\n` +
-        `- **Supervised By**: ${pt.supervised_by || "N/A"}\n` +
-        `- **Clinical Outcome**: ${pt.clinical_outcome || "N/A"}`
+      `- **Facility**: ${pt.facility || "N/A"}\n` +
+      `- **Dates & Duration**: ${pt.start_date || "N/A"} to ${pt.end_date || "N/A"} (${pt.total_sessions || 0} sessions, ${pt.frequency || "N/A"})\n` +
+      `- **Supervised By**: ${pt.supervised_by || "N/A"}\n` +
+      `- **Clinical Outcome**: ${pt.clinical_outcome || "N/A"}`
     );
   } else {
     sections.push("No conservative physical therapy documented.");
@@ -137,8 +134,8 @@ export async function extractPatientContext(state: PriorAuthStateType) {
     notes.imaging_history.forEach((img: any) => {
       sections.push(
         `- **${img.modality}** of ${img.body_part || "Unspecified"} (${img.date || "Date N/A"}):\n` +
-          `  - Findings: ${img.findings || "N/A"}\n` +
-          `  - Impression: ${img.impression || "N/A"}`
+        `  - Findings: ${img.findings || "N/A"}\n` +
+        `  - Impression: ${img.impression || "N/A"}`
       );
     });
   } else {
@@ -153,7 +150,7 @@ export async function extractPatientContext(state: PriorAuthStateType) {
     notes.allergies_and_contraindications.forEach((alg: any) => {
       sections.push(
         `- **Agent**: ${alg.agent} | **Reaction**: ${alg.reaction_type} | **Severity**: ${alg.severity} (${alg.documented_date || "Date N/A"})\n` +
-          `  - Notes: ${alg.clinical_notes || "N/A"}`
+        `  - Notes: ${alg.clinical_notes || "N/A"}`
       );
     });
   } else {
@@ -168,10 +165,10 @@ export async function extractPatientContext(state: PriorAuthStateType) {
     notes.physician_progress_notes.forEach((pn: any) => {
       sections.push(
         `### Note Date: ${pn.date} - ${pn.provider_name} (${pn.provider_specialty})\n` +
-          `- **Subjective**: ${pn.subjective || "N/A"}\n` +
-          `- **Objective**: ${pn.objective || "N/A"}\n` +
-          `- **Assessment**: ${pn.assessment || "N/A"}\n` +
-          `- **Plan**: ${pn.plan || "N/A"}`
+        `- **Subjective**: ${pn.subjective || "N/A"}\n` +
+        `- **Objective**: ${pn.objective || "N/A"}\n` +
+        `- **Assessment**: ${pn.assessment || "N/A"}\n` +
+        `- **Plan**: ${pn.plan || "N/A"}`
       );
     });
   } else {
@@ -188,10 +185,7 @@ export async function extractPatientContext(state: PriorAuthStateType) {
   };
 }
 
-// ============================================================================
 // Node 2: retrievePolicyChunks (Hybrid Policy RAG Retriever)
-// ============================================================================
-
 export async function retrievePolicyChunks(state: PriorAuthStateType) {
   const patient = state.patientChart;
   if (!patient) {
@@ -281,10 +275,7 @@ export async function retrievePolicyChunks(state: PriorAuthStateType) {
   };
 }
 
-// ============================================================================
 // Node 3: auditClinicalCriteria (Clinical Gap & Criteria Auditor)
-// ============================================================================
-
 export async function auditClinicalCriteria(state: PriorAuthStateType) {
   const patient = state.patientChart;
   const policyChunks = state.matchedPolicyChunks || [];
@@ -337,8 +328,8 @@ export async function auditClinicalCriteria(state: PriorAuthStateType) {
         evidence_quote: ptMet
           ? `Completed ${pt.total_sessions} supervised PT sessions from ${pt.start_date} to ${pt.end_date} at ${pt.facility} under ${pt.supervised_by}. Persistent radicular symptoms.`
           : pt
-          ? `Physical therapy incomplete: only ${pt.total_sessions || 0} sessions documented.`
-          : "No physical therapy history documented.",
+            ? `Physical therapy incomplete: only ${pt.total_sessions || 0} sessions documented.`
+            : "No physical therapy history documented.",
         source_date: pt?.end_date || "2026-09-18",
       });
 
@@ -580,10 +571,7 @@ export async function auditClinicalCriteria(state: PriorAuthStateType) {
   };
 }
 
-// ============================================================================
 // Node 4: draftJustificationAndSave (Justification Letter Writer & DB Saver)
-// ============================================================================
-
 export async function draftJustificationAndSave(state: PriorAuthStateType) {
   const patient = state.patientChart;
   const criteria = state.criteriaEvaluationList || [];
@@ -619,36 +607,34 @@ export async function draftJustificationAndSave(state: PriorAuthStateType) {
   if (!physicianImpressionNarrative) {
     physicianImpressionNarrative = `The patient presents with moderate-to-severe symptoms of ${patient.diagnosis_codes.join(
       ", "
-    )} with significant functional impairment. Guideline-directed clinical management has been pursued, establishing medical necessity for ${
-      patient.requested_procedure
-    }.`;
+    )} with significant functional impairment. Guideline-directed clinical management has been pursued, establishing medical necessity for ${patient.requested_procedure
+      }.`;
   }
 
   // Construct structured professional letter
   const warningBanner =
     missing.length > 0
       ? `> ⚠️ **CLINICIAN ACTION REQUIRED BEFORE SUBMISSION: Missing Mandatory Documentation**\n` +
-        missing.map((m) => `> - **Missing Item**: ${m}`).join("\n") +
-        `\n> *Prior authorization cannot be approved under ${patient.payer_name} policy until this missing item is obtained and submitted.*\n\n---\n\n`
+      missing.map((m) => `> - **Missing Item**: ${m}`).join("\n") +
+      `\n> *Prior authorization cannot be approved under ${patient.payer_name} policy until this missing item is obtained and submitted.*\n\n---\n\n`
       : "";
 
   const exceptionSection =
     verdict === "EXCEPTION_REQUIRED"
       ? `### FORMAL STEP-THERAPY EXCEPTION & CONTRAINDICATION JUSTIFICATION\n` +
-        `Pursuant to ${patient.payer_name} Policy Step-Therapy Exception Guidelines, conventional thiopurine step therapy cannot be completed due to a documented life-threatening adverse reaction and confirmed pharmacogenetic enzyme deficiency.\n\n` +
-        `1. **Acute Drug-Induced Pancreatitis**: The patient was initiated on Azathioprine on 2026-07-09 and required emergent drug cessation on 2026-07-14 (day 5) after developing intractable epigastric pain with serum lipase markedly elevated at 980 U/L (Reference: 10 - 140 U/L).\n` +
-        `2. **Thiopurine S-Methyltransferase (TPMT) Deficiency**: Pharmacogenetic profiling on 2026-07-16 revealed a severe TPMT enzyme deficiency (4.2 U/mL; Reference: 13.8 - 25.1 U/mL), placing the patient at catastrophic risk for fatal bone marrow aplasia upon re-exposure.\n` +
-        `3. **Clinical Recommendation**: Further trials of 6-mercaptopurine or azathioprine are strictly contraindicated. Immediate biologic escalation to ${patient.requested_procedure} is medically necessary.\n\n---\n\n`
+      `Pursuant to ${patient.payer_name} Policy Step-Therapy Exception Guidelines, conventional thiopurine step therapy cannot be completed due to a documented life-threatening adverse reaction and confirmed pharmacogenetic enzyme deficiency.\n\n` +
+      `1. **Acute Drug-Induced Pancreatitis**: The patient was initiated on Azathioprine on 2026-07-09 and required emergent drug cessation on 2026-07-14 (day 5) after developing intractable epigastric pain with serum lipase markedly elevated at 980 U/L (Reference: 10 - 140 U/L).\n` +
+      `2. **Thiopurine S-Methyltransferase (TPMT) Deficiency**: Pharmacogenetic profiling on 2026-07-16 revealed a severe TPMT enzyme deficiency (4.2 U/mL; Reference: 13.8 - 25.1 U/mL), placing the patient at catastrophic risk for fatal bone marrow aplasia upon re-exposure.\n` +
+      `3. **Clinical Recommendation**: Further trials of 6-mercaptopurine or azathioprine are strictly contraindicated. Immediate biologic escalation to ${patient.requested_procedure} is medically necessary.\n\n---\n\n`
       : "";
 
   const criteriaMapping = criteria
     .map(
       (c, idx) =>
         `#### Criterion ${idx + 1}: ${c.criterion}\n` +
-        `- **Evaluation Status**: ${
-          c.status === "MET"
-            ? "✅ MET"
-            : c.status === "EXCEPTION_JUSTIFIED"
+        `- **Evaluation Status**: ${c.status === "MET"
+          ? "✅ MET"
+          : c.status === "EXCEPTION_JUSTIFIED"
             ? "⚡ EXCEPTION JUSTIFIED"
             : "❌ MISSING DOCUMENTATION"
         }\n` +

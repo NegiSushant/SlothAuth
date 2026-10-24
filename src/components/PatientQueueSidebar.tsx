@@ -1,7 +1,6 @@
 
 "use client";
 
-import React from "react";
 import {
   User,
   CheckCircle2,
@@ -111,8 +110,8 @@ export function PatientQueueSidebar({
               key={p.id}
               onClick={() => onSelectPatient(p)}
               className={`w-full text-left p-3.5 rounded-xl border transition-all duration-200 relative group ${isSelected
-                  ? "bg-slate-900 border-emerald-500/60 shadow-lg shadow-emerald-500/5 ring-1 ring-emerald-500/40"
-                  : "bg-slate-900/40 border-slate-800/80 hover:bg-slate-900/80 hover:border-slate-700 text-slate-300"
+                ? "bg-slate-900 border-emerald-500/60 shadow-lg shadow-emerald-500/5 ring-1 ring-emerald-500/40"
+                : "bg-slate-900/40 border-slate-800/80 hover:bg-slate-900/80 hover:border-slate-700 text-slate-300"
                 }`}
             >
               {/* Active Selection Indicator Bar */}
@@ -178,10 +177,10 @@ export function PatientQueueSidebar({
                 <div className="mt-2 w-full bg-slate-800 rounded-full h-1 overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${p.readiness_status === "MISSING_INFO"
-                        ? "bg-rose-500"
-                        : p.readiness_status === "EXCEPTION_REQUIRED"
-                          ? "bg-indigo-400"
-                          : "bg-emerald-400"
+                      ? "bg-rose-500"
+                      : p.readiness_status === "EXCEPTION_REQUIRED"
+                        ? "bg-indigo-400"
+                        : "bg-emerald-400"
                       }`}
                     style={{ width: `${confidence}%` }}
                   />

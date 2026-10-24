@@ -120,9 +120,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ========================================================================
     // Mode A: Server-Sent Events (SSE) Streaming
-    // ========================================================================
     if (stream) {
       const encoder = new TextEncoder();
 
@@ -274,9 +272,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ========================================================================
     // Mode B: Standard JSON Response
-    // ========================================================================
     if (requestId) {
       const result = await runPriorAuthAgentForPatient(Number(requestId));
       return NextResponse.json({

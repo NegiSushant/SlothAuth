@@ -1,8 +1,5 @@
 "use client";
 
-import React from "react";
-import { Terminal, Shield, Sparkles } from "lucide-react";
-
 export function TechStackBadgeSection() {
   const stackItems = [
     {

@@ -23,24 +23,17 @@ export default function LandingPage() {
 
       {/* 2. Main Content Sections */}
       <main className="flex-1">
-        {/* Hero Section */}
         <HeroSection />
-
         {/* Complete Project Flow & Architecture */}
         <FlowWorkflowSection />
-
         {/* Hackathon Problem & Solution Spotlight */}
         <HackathonSpotlight />
-
         {/* Engineering Capabilities & Features Grid */}
         <FeatureGrid />
-
         {/* Interactive Hospital ROI & Savings Calculator */}
         <LiveMetricsShowcase />
-
         {/* Technology Stack & Agent Framework Badges */}
         <TechStackBadgeSection />
-
         {/* Frequently Asked Questions */}
         <FaqSection />
       </main>

@@ -6,9 +6,7 @@ import {
 } from "../src/lib/agent/priorAuthGraph";
 
 async function main() {
-  console.log("==================================================================");
   console.log("🦥 SlothAuth - Phase 3 LangGraph Workflow Verification Runner");
-  console.log("==================================================================");
 
   // Check if a specific patient ID was provided via CLI argument
   const targetIdArg = process.argv[2];
@@ -39,9 +37,7 @@ async function main() {
   // Run overnight batch across all 3 patients
   const batchSummary = await runOvernightSlothBatch();
 
-  console.log("\n==================================================================");
   console.log("📊 BATCH EXECUTION SUMMARY TABLE");
-  console.log("==================================================================");
   console.table(
     batchSummary.map((b) => ({
       ReqID: b.requestId,
@@ -56,9 +52,7 @@ async function main() {
   );
 
   // Inspect detailed output for each patient
-  console.log("\n==================================================================");
   console.log("🔍 DETAILED CLINICAL AUDIT & LETTER VERIFICATION");
-  console.log("==================================================================");
 
   const packets = await prisma.preppedPacket.findMany({
     include: { patient_request: true },
@@ -83,8 +77,8 @@ async function main() {
         c.status === "MET"
           ? "✅"
           : c.status === "EXCEPTION_JUSTIFIED"
-          ? "⚡"
-          : "❌";
+            ? "⚡"
+            : "❌";
       console.log(`  ${icon} [${c.status}] ${c.criterion}`);
       console.log(`     Evidence: ${c.evidence_quote}`);
       if (c.source_date) console.log(`     Date: ${c.source_date}`);

@@ -16,10 +16,7 @@ const embeddingModel =
   process.env.DMR_EMD_MODEL ||
   "ai/mxbai-embed-large";
 
-/**
- * Gemma chat model configured to run locally via Docker Model Runner
- * with low temperature for deterministic clinical prior-authorization evaluation.
- */
+// Gemma chat model configured to run locally via Docker Model Runner
 export const gemmaChatModel = new ChatOpenAI({
   model: llmModel,
   apiKey: "docker-model-runner-local",
@@ -29,9 +26,7 @@ export const gemmaChatModel = new ChatOpenAI({
   temperature: 0.1,
 });
 
-/**
- * Resolves candidate embedding endpoints with fallbacks.
- */
+// Resolves candidate embedding endpoints with fallbacks.
 function getEmbeddingCandidates(): string[] {
   const cleanBase = baseURL.replace(/\/+$/, "");
   const candidates: string[] = [];
@@ -50,9 +45,7 @@ function getEmbeddingCandidates(): string[] {
 
 let activeEmbeddingEndpoint: string | null = null;
 
-/**
- * Generates an embedding vector for search queries using the local embedding model.
- */
+//Generates an embedding vector for search queries using the local embedding model.
 export async function generateQueryEmbedding(text: string): Promise<number[]> {
   const endpoints = activeEmbeddingEndpoint
     ? [activeEmbeddingEndpoint]

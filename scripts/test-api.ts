@@ -17,13 +17,9 @@ function createMockNextRequest(url: string, body?: unknown, method: string = "PO
 }
 
 async function runApiVerificationSuite() {
-  console.log("==================================================================");
   console.log("🦥 SlothAuth - Phase 4 API Routes Comprehensive Verification Suite");
-  console.log("==================================================================");
 
-  // -------------------------------------------------------------------------
   // Test 1: Reset Simulation Database
-  // -------------------------------------------------------------------------
   console.log("\n[TEST 1] Testing POST /api/prior-auth/reset...");
   const resetRes = await postReset();
   const resetJson = await resetRes.json();
@@ -34,9 +30,7 @@ async function runApiVerificationSuite() {
   }
   console.log("  ✔ POST /api/prior-auth/reset passed.");
 
-  // -------------------------------------------------------------------------
   // Test 2: Fetch Initial Queue State
-  // -------------------------------------------------------------------------
   console.log("\n[TEST 2] Testing GET /api/prior-auth/queue (initial clean state)...");
   const queueRes1 = await getQueue();
   const queueJson1 = await queueRes1.json();
@@ -55,9 +49,7 @@ async function runApiVerificationSuite() {
   }
   console.log("  ✔ GET /api/prior-auth/queue initial state verified.");
 
-  // -------------------------------------------------------------------------
   // Test 3: POST /api/prior-auth/prep (Single Patient Standard JSON Mode B)
-  // -------------------------------------------------------------------------
   const targetPatient = queueJson1.patients[0];
   const targetId = targetPatient.id;
   console.log(`\n[TEST 3] Testing POST /api/prior-auth/prep (Mode B - JSON) for Patient #${targetId} (${targetPatient.patient_name})...`);
@@ -80,9 +72,7 @@ async function runApiVerificationSuite() {
   }
   console.log("  ✔ POST /api/prior-auth/prep (Mode B - JSON) passed.");
 
-  // -------------------------------------------------------------------------
   // Test 4: POST /api/prior-auth/prep (Live SSE Streaming Mode A)
-  // -------------------------------------------------------------------------
   console.log(`\n[TEST 4] Testing POST /api/prior-auth/prep (Mode A - Live SSE Stream) for Patient #${targetId}...`);
   const prepReqStream = createMockNextRequest(
     "http://localhost:3000/api/prior-auth/prep",
@@ -134,9 +124,7 @@ async function runApiVerificationSuite() {
   }
   console.log("  ✔ POST /api/prior-auth/prep (Mode A - SSE Stream) passed.");
 
-  // -------------------------------------------------------------------------
   // Test 5: PATCH /api/prior-auth/packet/[requestId] (Clinician Workflow)
-  // -------------------------------------------------------------------------
   console.log(`\n[TEST 5] Testing PATCH /api/prior-auth/packet/${targetId}...`);
 
   // Action 5A: SAVE_DRAFT
@@ -202,9 +190,7 @@ async function runApiVerificationSuite() {
   }
   console.log("    ✔ APPROVE_AND_SUBMIT passed.");
 
-  // -------------------------------------------------------------------------
   // Test 6: Verify Queue Reflects Updated Metrics
-  // -------------------------------------------------------------------------
   console.log("\n[TEST 6] Testing GET /api/prior-auth/queue (after prep & submission)...");
   const queueRes2 = await getQueue();
   const queueJson2 = await queueRes2.json();
@@ -215,9 +201,7 @@ async function runApiVerificationSuite() {
   }
   console.log("  ✔ Queue telemetry reflection verified.");
 
-  // -------------------------------------------------------------------------
   // Test 7: Clean Reset for Future Demos
-  // -------------------------------------------------------------------------
   console.log("\n[TEST 7] Performing clean reset via POST /api/prior-auth/reset...");
   await postReset();
   console.log("  ✔ Demo state reset successfully.");

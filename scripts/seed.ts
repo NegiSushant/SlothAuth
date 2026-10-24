@@ -2,9 +2,7 @@ import "dotenv/config";
 import prisma from "../src/lib/prisma";
 import { PAYER_POLICIES, SYNTHETIC_PATIENTS } from "../src/lib/seed-data";
 
-/**
- * Resolves candidate URLs for the Docker Model Runner embeddings endpoint.
- */
+//  Docker Model Runner embeddings endpoint.
 function getEmbeddingEndpoints(): string[] {
   const configuredBase =
     process.env.DOCKER_MODEL_BASE_URL ||
@@ -35,9 +33,7 @@ const modelName =
   process.env.DMR_EMD_MODEL ||
   "ai/mxbai-embed-large";
 
-/**
- * Generates an embedding vector using the local Docker Model Runner.
- */
+// Generates an embedding vector using the local Docker Model Runner.
 export async function generateLocalEmbedding(text: string): Promise<number[]> {
   const endpoints = activeEndpoint ? [activeEndpoint] : getEmbeddingEndpoints();
   let lastError: Error | null = null;
@@ -82,8 +78,8 @@ export async function generateLocalEmbedding(text: string): Promise<number[]> {
     `Failed to generate embedding from Docker Model Runner.\nTried endpoints: ${endpoints.join(
       ", "
     )}\nModel: "${modelName}"\nRoot cause: ${lastError?.message || "Unknown error"}\n\n` +
-      `Please ensure Docker Desktop / Docker Model Runner is running at localhost:12434 and ` +
-      `the model "${modelName}" is pulled (e.g., 'docker model run ${modelName}').`
+    `Please ensure Docker Desktop / Docker Model Runner is running at localhost:12434 and ` +
+    `the model "${modelName}" is pulled (e.g., 'docker model run ${modelName}').`
   );
 }
 
@@ -170,14 +166,9 @@ async function initializeSchema(vectorDim: number) {
   console.log("✅ Schema, pgvector extension, and HNSW indexes created successfully.");
 }
 
-/**
- * Main seed execution routine.
- */
+// Main seed execution routine.
 async function main() {
-  console.log("==================================================================");
-  console.log("🦥 SlothAuth - Phase 2 Database Seeding & Local Vector Generation");
-  console.log("==================================================================");
-
+  console.log("SlothAuth - Phase 2 Database Seeding & Local Vector Generation");
   // Test database connection using Prisma
   try {
     const res = await prisma.$queryRawUnsafe<Array<{ current_database: string }>>(
@@ -187,12 +178,12 @@ async function main() {
       `🔌 Connected to PostgreSQL Database via Prisma: "${res[0]?.current_database || 'postgres'}"`
     );
   } catch (err: unknown) {
-    console.error("❌ Failed to connect to PostgreSQL via Prisma:", err);
+    console.error("Failed to connect to PostgreSQL via Prisma:", err);
     process.exit(1);
   }
 
   // Probe Docker Model Runner
-  console.log(`🔍 Probing local Docker Model Runner with model "${modelName}"...`);
+  console.log(`Probing local Docker Model Runner with model "${modelName}"...`);
   let vectorDim = 1024;
   try {
     const probeVector = await generateLocalEmbedding(
@@ -203,9 +194,9 @@ async function main() {
       `🎯 Local embedding model online at ${activeEndpoint}! Detected dimension: ${vectorDim}`
     );
   } catch (err: unknown) {
-    console.error("\n❌ Embedding probe failed:", err instanceof Error ? err.message : err);
+    console.error("\n Embedding probe failed:", err instanceof Error ? err.message : err);
     console.warn(
-      "\n⚠️ Using default vector dimension: 1024. Please ensure Docker Model Runner is running."
+      "\n Using default vector dimension: 1024. Please ensure Docker Model Runner is running."
     );
     process.exit(1);
   }
@@ -215,7 +206,7 @@ async function main() {
 
   // Seed Payer Policies with embeddings
   console.log(
-    `\n📚 Vectorizing and inserting ${PAYER_POLICIES.length} Payer Policy chunks...`
+    `\n Vectorizing and inserting ${PAYER_POLICIES.length} Payer Policy chunks...`
   );
 
   const policySummary: Array<{
@@ -261,7 +252,7 @@ async function main() {
   console.log(`\n✅ Vectorized all ${PAYER_POLICIES.length} policy chunks.`);
 
   // Seed Synthetic Patient Charts using Prisma Client Models
-  console.log(`\n🏥 Inserting ${SYNTHETIC_PATIENTS.length} Synthetic Patient Charts via Prisma Client...`);
+  console.log(`\nInserting ${SYNTHETIC_PATIENTS.length} Synthetic Patient Charts via Prisma Client...`);
   const patientSummary: Array<{
     ID: number;
     Code: string;
@@ -306,14 +297,10 @@ async function main() {
   }
 
   // Display Seed Summaries
-  console.log("\n==================================================================");
   console.log("📊 SEEDED PAYER POLICIES (VECTORIZED VIA DOCKER MODEL RUNNER)");
-  console.log("==================================================================");
   console.table(policySummary);
 
-  console.log("\n==================================================================");
   console.log("📋 QUEUED PATIENT REQUESTS (FOR AUTONOMOUS OVERNIGHT PREP)");
-  console.log("==================================================================");
   console.table(patientSummary);
 
   console.log("\n✨ Database successfully seeded and ready for autonomous preparation!");
@@ -321,7 +308,7 @@ async function main() {
 
 main()
   .catch((err) => {
-    console.error("❌ Fatal seed error:", err);
+    console.error("Fatal seed error:", err);
     process.exit(1);
   })
   .finally(async () => {

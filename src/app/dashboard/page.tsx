@@ -103,9 +103,7 @@ export default function PriorAuthDashboardPage() {
   const selectedPatient =
     patients.find((p) => p.id === selectedPatientId) ?? patients[0] ?? null;
 
-  // ---------------------------------------------------------------------------
   // SSE Streaming Runner (Handles both batch & single patient)
-  // ---------------------------------------------------------------------------
   const runAgentWithStreaming = async (requestId?: number) => {
     setStepperState({
       isRunning: true,
@@ -227,8 +225,7 @@ export default function PriorAuthDashboardPage() {
         isRunning: false,
         logs: [
           ...prev.logs,
-          `❌ Execution halted: ${
-            err instanceof Error ? err.message : "Network/Agent Error"
+          `❌ Execution halted: ${err instanceof Error ? err.message : "Network/Agent Error"
           }`,
         ],
       }));
@@ -242,9 +239,7 @@ export default function PriorAuthDashboardPage() {
     }
   };
 
-  // ---------------------------------------------------------------------------
   // Action Handlers
-  // ---------------------------------------------------------------------------
   const handleRunOvernightPrep = () => {
     runAgentWithStreaming();
   };
@@ -390,13 +385,12 @@ export default function PriorAuthDashboardPage() {
         {toasts.map((t) => (
           <div
             key={t.id}
-            className={`pointer-events-auto flex items-center justify-between gap-3 p-3.5 rounded-xl border shadow-xl text-xs backdrop-blur-md transition-all animate-in slide-in-from-top-2 ${
-              t.type === "success"
-                ? "bg-emerald-950/90 border-emerald-500/50 text-emerald-200"
-                : t.type === "error"
+            className={`pointer-events-auto flex items-center justify-between gap-3 p-3.5 rounded-xl border shadow-xl text-xs backdrop-blur-md transition-all animate-in slide-in-from-top-2 ${t.type === "success"
+              ? "bg-emerald-950/90 border-emerald-500/50 text-emerald-200"
+              : t.type === "error"
                 ? "bg-rose-950/90 border-rose-500/50 text-rose-200"
                 : "bg-slate-900/90 border-slate-700 text-slate-200"
-            }`}
+              }`}
           >
             <div className="flex items-center gap-2">
               {t.type === "success" && (

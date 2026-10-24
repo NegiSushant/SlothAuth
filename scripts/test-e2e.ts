@@ -1,9 +1,7 @@
 async function main() {
   const base = "http://localhost:3000";
 
-  console.log("------------------------------------------------------------------");
   console.log("🧪 SlothAuth End-to-End Verification Test");
-  console.log("------------------------------------------------------------------");
 
   // 1. Landing Page
   const r1 = await fetch(base);
@@ -74,9 +72,7 @@ async function main() {
   const data9 = await r9.json();
   console.log(`9. Registration API (POST /api/auth/signup): Status ${r9.status}, Created: ${data9.user?.name} (${data9.user?.email})`);
 
-  console.log("------------------------------------------------------------------");
   console.log("✅ All End-to-End Auth, Routing, and Landing verification tests PASSED!");
-  console.log("------------------------------------------------------------------");
 }
 
 main().catch(console.error);
